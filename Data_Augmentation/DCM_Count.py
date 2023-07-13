@@ -13,5 +13,4 @@ for category in tqdm(['Normal', 'Abnormal']):
 
 
 
-
 print(f"The folder contains {num_dcm_files} DICOM files.")

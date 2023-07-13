@@ -6,6 +6,10 @@ import numpy as np
 from PIL import Image, ImageOps
 from skimage import measure
 import cv2
+
+## this file is used to sort DCM file based on it viewPosition - CC and MLO
+## and convert all the DCM images into PNG images
+## then using LOG filter to upscale one image to six images
 def multi_scale_analysis(image):
     image = np.array(image)
     scales = [ 5 ,7, 9,11,13 , 15]

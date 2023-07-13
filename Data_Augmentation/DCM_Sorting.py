@@ -1,12 +1,5 @@
 import pydicom
-import shutil
-from tqdm.auto import tqdm
-import numpy as np
-from PIL import Image, ImageOps
-from skimage import measure
-import cv2
 import os
-import random
 from shutil import copyfile
 from tqdm.auto import tqdm
 
