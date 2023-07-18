@@ -18,6 +18,7 @@ def start_server(host, port):
 
     conn.close()
 
+
 if __name__ == "__main__":
     host = '0.0.0.0'  # Use '0.0.0.0' to listen on all available interfaces
     port = 12345  # Choose a port number (use the same port for the client)
