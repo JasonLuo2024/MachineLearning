@@ -11,10 +11,9 @@ from tqdm.auto import tqdm
 import torch.nn as nn
 import mlflow
 import pandas as pd
-import torchcam
 
 LEARNING_RATE = 0.002
-mlflow.set_tracking_uri('http://127.0.0.1:5000')
+mlflow.set_tracking_uri('http://127.0.0.1:1212/?token=5a1ee9f7e18e7103ca55c1abf05876be19605fa431887a32')
 class PNGDataset(Dataset):
     def __init__(self, root_dir, transform=None):
         self.root_dir = root_dir
@@ -73,7 +72,7 @@ def main():
     test_dataset = torch.utils.data.Subset(dataset, test_indices)
 
 
-    train_dataloader = DataLoader(train_dataset, batch_size=6, shuffle=True, num_workers=6)
+    train_dataloader = DataLoader(train_dataset, batch_size=1, shuffle=True, num_workers=6)
     test_dataloader = DataLoader(test_dataset, batch_size=6, shuffle=False, num_workers=6)
 
 
@@ -115,16 +114,13 @@ def main():
 
         print(f'Loss: {epoch_loss:.4f} Acc: {epoch_acc:.4f}')
 
-        torch.save(model.state_dict(), r'D:/WholeDataTest2'
-                                       r'/'+str(epoch)+'Test.pth')
-
         model.eval()
 
         y_true = []
         y_pred = []
         # # # evaluate the result at each epoch
         with torch.no_grad():
-            for img_1, img_2, label_1, label_2 in tqdm(test_dataloader):
+            for img, label in tqdm(test_dataloader):
                 img = img.to(device)
 
                 label = label.to(device)
@@ -137,15 +133,15 @@ def main():
                 y_pred.extend(preds.cpu().numpy())
 
                 # Calculate evaluation metrics
-        f1 = f1_score(y_true, y_pred)
-        precision = precision_score(y_true, y_pred)
-        recall = recall_score(y_true, y_pred)
-        tn, fp, fn, tp = confusion_matrix(y_true, y_pred).ravel()
-        specificity = tn / (tn + fp)
-        sensitivity = tp / (tp + fn)
-        Accuracy = (tp + tn) / (tp + tn + fp + fn)
-        print(f"\nF1-Score: {f1:.5f} | Recall: {recall:.2f}")
-        print(f"\nSpecificity: {specificity:.5f} | sensitivity: {sensitivity:.5f} | Accuracy: {Accuracy:.2f}%\n")
+            f1 = f1_score(y_true, y_pred)
+            precision = precision_score(y_true, y_pred)
+            recall = recall_score(y_true, y_pred)
+            tn, fp, fn, tp = confusion_matrix(y_true, y_pred).ravel()
+            specificity = tn / (tn + fp)
+            sensitivity = tp / (tp + fn)
+            Accuracy = (tp + tn) / (tp + tn + fp + fn)
+            print(f"\nF1-Score: {f1:.5f} | Recall: {recall:.2f}")
+            print(f"\nSpecificity: {specificity:.5f} | sensitivity: {sensitivity:.5f} | Accuracy: {Accuracy:.2f}%\n")
 
         mlflow.log_metric('f1', f1, step=epoch)
         mlflow.log_metric('precision', precision, step=epoch)
