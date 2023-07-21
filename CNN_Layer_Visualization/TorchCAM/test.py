@@ -1,4 +1,10 @@
-__author__ = "JasonLuo"
+import sys
+
+#
+# # Add the path to the specific folder containing Python packages
+specific_folder_path = r'/gpfs/home/hluo/anaconda3/envs/torch/lib'
+sys.path.append(specific_folder_path)
+
 import os
 import torch
 from torch.utils.data import Dataset, DataLoader
@@ -49,7 +55,7 @@ avg_sensitivity = 0
 avg_F1_score = 0
 
 def main():
-    dataset = PNGDataset(r'C:\Users\Woody\Desktop\Lay_visualization', transform=transform)
+    dataset = PNGDataset(r'/home/hluo/Lay_visualization', transform=transform)
 
     device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
@@ -72,7 +78,7 @@ def main():
     test_dataset = torch.utils.data.Subset(dataset, test_indices)
 
 
-    train_dataloader = DataLoader(train_dataset, batch_size=1, shuffle=True, num_workers=6)
+    train_dataloader = DataLoader(train_dataset, batch_size=6, shuffle=True, num_workers=6)
     test_dataloader = DataLoader(test_dataset, batch_size=6, shuffle=False, num_workers=6)
 
 
@@ -108,11 +114,15 @@ def main():
 
         epoch_loss = running_loss / (len(train_dataset)*2)
         epoch_acc = running_corrects.double() / (len(train_dataset)*2)
-
-        mlflow.log_metric('loss', epoch_loss, step=epoch)
-        mlflow.log_metric('train_accuracy', epoch_acc, step=epoch)
-
-        print(f'Loss: {epoch_loss:.4f} Acc: {epoch_acc:.4f}')
+        try:
+            mlflow.log_metric('loss', epoch_loss, step=epoch)
+            mlflow.log_metric('train_accuracy', epoch_acc, step=epoch)
+            print(epoch_acc)
+            print(f'Loss: {epoch_loss:.4f} Acc: {epoch_acc:.4f}')
+        except Exception as e:
+            output_file = r'/gpfs/home/hluo/cuda_check.txt'
+            with open(output_file, 'w') as file:
+                print(e, file=file)
 
         model.eval()
 

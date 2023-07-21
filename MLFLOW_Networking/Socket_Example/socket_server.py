@@ -20,6 +20,6 @@ def start_server(host, port):
 
 
 if __name__ == "__main__":
-    host = '0.0.0.0'  # Use '0.0.0.0' to listen on all available interfaces
-    port = 12345  # Choose a port number (use the same port for the client)
+    host = "0.0.0.0"   # Use '0.0.0.0' to listen on all available interfaces
+    port = 5000 # Choose a port number (use the same port for the client)
     start_server(host, port)

@@ -8,7 +8,7 @@ import cv2
 import pandas as pd
 import threading
 import concurrent.futures
-dirctory = r'C:\Users\Woody\Desktop\RSNA_PNG'
+dirctory = r'C:\Users\Woody\Desktop\test'
 train_csv = r'C:\Users\Woody\Desktop\RSNA_PNG\train.csv'
 
 def multi_scale_analysis(image):

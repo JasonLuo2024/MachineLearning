@@ -108,14 +108,14 @@ def main():
                 torch.nn.Linear(self.num_features, 512),
                 torch.nn.ReLU(),
                 torch.nn.Dropout(0.5),
-                torch.nn.Linear(512, 2),
+                torch.nn.Linear(512, 2)
             )
 
             self.model_2.classifier = torch.nn.Sequential(
                 torch.nn.Linear(self.num_features, 512),
                 torch.nn.ReLU(),
                 torch.nn.Dropout(0.5),
-                torch.nn.Linear(512, 2),
+                torch.nn.Linear(512, 2)
             )
 
         def forward(self, x1, x2):

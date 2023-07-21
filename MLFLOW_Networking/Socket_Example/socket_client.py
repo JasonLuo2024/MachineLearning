@@ -19,6 +19,6 @@ def start_client(host, port):
         client_socket.close()
 
 if __name__ == "__main__":
-    host =   # Replace with the IP address of the server
-    port = 12345  # Use the same port number you chose for the server
+    host = "10.250.0.22"  # Replace with the IP address of the server
+    port = 9009  # Use the same port number you chose for the server
     start_client(host, port)
