@@ -9,7 +9,7 @@ def file_name_change(folder_path = ''):
     for root, directories, files in os.walk(folder_path):
         for file in files:
             Sort_list.append(file)
-            num = file.split('.')[0] + '.txt'
+            num = file.split('m')[0] + '.txt'
             new_filename = os.path.join(root, num)
             old_filename = os.path.join(root, file)
             os.rename(old_filename, new_filename)
@@ -32,37 +32,37 @@ def read_metrics_from_file(file_path):
     return metrics
 
 
-
-
 LEARNING_RATE = 0.002
 mlflow.set_tracking_uri('http://127.0.0.1:5000')
-folder_path = r'C:\Users\Woody\Desktop\result\Batch_16_without_age\result'
-file_name_change(folder_path)
-file_path = []
-for root, directories, files in os.walk(folder_path):
-    for file in files:
-        filename = os.path.join(root, file)
-        file_path.append(filename)
+with mlflow.start_run(run_name="Keggel_With_Age_Batch_Size_16(linear version)"):
+    folder_path = r'C:\Users\Woody\Desktop\result\linear'
+    # file_name_change(folder_path)
+    file_path = []
+    for root, directories, files in os.walk(folder_path):
+        for file in files:
+            filename = os.path.join(root, file)
+            file_path.append(filename)
 
-sorted_file_paths = sorted(file_path, key=extract_file_number)
-# print(sorted_file_paths)
-for file_path in sorted_file_paths:
-    with open(file_path, 'r') as file:
-        epoch = int(os.path.basename(file_path).split('.')[0])
-        value_list = []
-        for line in file:
-            item_list = line.split('|')
-            for item in item_list:
-                value_list.append(item)
+    sorted_file_paths = sorted(file_path, key=extract_file_number)
+    # print(sorted_file_paths)
+    for file_path in sorted_file_paths:
+        with open(file_path, 'r') as file:
+            epoch = int(os.path.basename(file_path).split('.')[0])
+            value_list = []
+            for line in file:
+                item_list = line.split('|')
+                for item in item_list:
+                    value_list.append(item)
 
-        mlflow.log_metric('loss', float(value_list[0].split(':')[1]), step=epoch)
-        mlflow.log_metric('train_accuracy', float(value_list[1].split(':')[1]), step=epoch)
-        mlflow.log_metric('f1', float(value_list[2].split(':')[1]), step=epoch)
-        mlflow.log_metric('recall', float(value_list[3].split(':')[1]), step=epoch)
-        mlflow.log_metric('specificity', float(value_list[4].split(':')[1]), step=epoch)
-        mlflow.log_metric('sensitivity', float(value_list[5].split(':')[1]), step=epoch)
+            mlflow.log_metric('loss', float(value_list[0].split(':')[1]), step=epoch)
+            mlflow.log_metric('train_accuracy', float(value_list[1].split(':')[1]), step=epoch)
+            mlflow.log_metric('f1', float(value_list[2].split(':')[1]), step=epoch)
+            mlflow.log_metric('recall', float(value_list[3].split(':')[1]), step=epoch)
+            mlflow.log_metric('specificity', float(value_list[4].split(':')[1]), step=epoch)
+            mlflow.log_metric('sensitivity', float(value_list[5].split(':')[1]), step=epoch)
 
-print('load successfully')
+    print('load successfully')
+
 
 
 
