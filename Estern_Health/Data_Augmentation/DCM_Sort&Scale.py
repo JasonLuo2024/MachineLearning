@@ -74,6 +74,7 @@ def crop_breast_region(image):
 
 directory = 'D:/WholeDataSet'
 target = 'D:/WholeDataTest2'
+
 for category in tqdm(['Normal', 'Abnormal']):
     path = os.path.join(directory, category)
     target_path = os.path.join(target, category)

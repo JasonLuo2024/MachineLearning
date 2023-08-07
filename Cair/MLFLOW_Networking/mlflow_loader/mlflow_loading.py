@@ -34,9 +34,9 @@ def read_metrics_from_file(file_path):
 
 LEARNING_RATE = 0.002
 mlflow.set_tracking_uri('http://127.0.0.1:5000')
-with mlflow.start_run(run_name="Keggel_With_Age_Batch_Size_16(linear version)"):
-    folder_path = r'C:\Users\Woody\Desktop\result\linear'
-    # file_name_change(folder_path)
+with mlflow.start_run(run_name="Estern_Health_With_Age_Batch_Size_6(linear version)"):
+    folder_path = r'C:\Users\Woody\Desktop\result\Estern_Health_Age_Batch_Size_6'
+    file_name_change(folder_path)
     file_path = []
     for root, directories, files in os.walk(folder_path):
         for file in files:

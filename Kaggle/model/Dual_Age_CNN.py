@@ -7,10 +7,6 @@ from sklearn.metrics import f1_score, precision_score, recall_score, confusion_m
 from sklearn.model_selection import train_test_split
 import torchvision.models as models
 from tqdm.auto import tqdm
-import multiprocessing as mp
-import warnings
-import pydicom
-import threading
 import torch.nn as nn
 import pandas as pd
 import mlflow

@@ -315,14 +315,17 @@ def open_dest(dest: str) -> Tuple[str, Callable[[str, Union[bytes, str]], None],
         return dest, folder_write_bytes, lambda: None
 
 #----------------------------------------------------------------------------
+data_folder = r'D:\Estern_PNG\Abnormal\CC'
+save_path = r'C:\Users\Woody\Desktop\CC-1024x1024.zip'
+resolution = '1024x1024'   # '256x256' or '512x512' or'1024x1024'
 
 @click.command()
 @click.pass_context
-@click.option('--source', help='Directory or archive name for input dataset', required=True, metavar='PATH',default = r'D:\Estern_PNG\Abnormal\MLO')
-@click.option('--dest', help='Output directory or archive name for output dataset', required=True, metavar='PATH',default = r'C:\Users\Woody\Desktop\ffhq-512x512.zip')
+@click.option('--source', help='Directory or archive name for input dataset', required=True, metavar='PATH',default = data_folder)
+@click.option('--dest', help='Output directory or archive name for output dataset', required=True, metavar='PATH',default = save_path)
 @click.option('--max-images', help='Output only up to `max-images` images', type=int, default=None)
 @click.option('--transform', help='Input crop/resize mode', type=click.Choice(['center-crop', 'center-crop-wide']))
-@click.option('--resolution', help='Output resolution (e.g., \'512x512\')', metavar='WxH', type=parse_tuple,default = '512x512')
+@click.option('--resolution', help='Output resolution (e.g., \'512x512\')', metavar='WxH', type=parse_tuple,default = resolution)
 def convert_dataset(
     ctx: click.Context,
     source: str,
