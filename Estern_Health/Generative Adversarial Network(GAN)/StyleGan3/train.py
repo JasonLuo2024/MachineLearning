@@ -133,7 +133,7 @@ outdir = r'/home/hluo/results/GAN'
 dataset = r'/home/hluo/GAN\CC.zip'
 num_gpus = 1  #for most users, it should be set to 1 as default
 batch_size = 12 #based on your memory, if your gpu memory is 32G, for example, with 512X512 iamges, you can set it up to 16
-
+snapshots_save = 50  #how often to save progress
 @click.command()
 
 # Required.
@@ -167,7 +167,7 @@ batch_size = 12 #based on your memory, if your gpu memory is 32G, for example, w
 @click.option('--metrics',      help='Quality metrics', metavar='[NAME|A,B,C|none]',            type=parse_comma_separated_list, default= 'none', show_default=True)
 @click.option('--kimg',         help='Total training duration', metavar='KIMG',                 type=click.IntRange(min=1), default=10, show_default=True)
 @click.option('--tick',         help='How often to print progress', metavar='KIMG',             type=click.IntRange(min=1), default=4, show_default=True)
-@click.option('--snap',         help='How often to save snapshots', metavar='TICKS',            type=click.IntRange(min=1), default=50, show_default=True)
+@click.option('--snap',         help='How often to save snapshots', metavar='TICKS',            type=click.IntRange(min=1), default=snapshots_save, show_default=True)
 @click.option('--seed',         help='Random seed', metavar='INT',                              type=click.IntRange(min=0), default=0, show_default=True)
 @click.option('--fp32',         help='Disable mixed-precision', metavar='BOOL',                 type=bool, default=False, show_default=True)
 @click.option('--nobench',      help='Disable cuDNN benchmarking', metavar='BOOL',              type=bool, default=False, show_default=True)
