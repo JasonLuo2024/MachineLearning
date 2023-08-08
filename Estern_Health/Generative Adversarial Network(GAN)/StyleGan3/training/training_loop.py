@@ -349,14 +349,14 @@ def training_loop(
                 print('Aborting...')
 
         # Save image snapshot.
-        if ((rank == 0) and (image_snapshot_ticks is not None) or (done or cur_tick % image_snapshot_ticks == 0)) or (cur_tick //20 == 0):
+        if (rank == 0) and (image_snapshot_ticks is not None) or (done or cur_tick % image_snapshot_ticks == 0):
             images = torch.cat([G_ema(z=z, c=c, noise_mode='const').cpu() for z, c in zip(grid_z, grid_c)]).numpy()
             save_image_grid(images, os.path.join(run_dir, f'fakes{cur_nimg//1000:06d}.png'), drange=[-1,1], grid_size=grid_size)
 
         # Save network snapshot.
         snapshot_pkl = None
         snapshot_data = None
-        if ((network_snapshot_ticks is not None) and (done or cur_tick % network_snapshot_ticks == 0)) or (cur_tick // 200 == 0):
+        if (network_snapshot_ticks is not None) and (done or cur_tick % network_snapshot_ticks == 0):
             snapshot_data = dict(G=G, D=D, G_ema=G_ema, augment_pipe=augment_pipe, training_set_kwargs=dict(training_set_kwargs))
             for key, value in snapshot_data.items():
                 if isinstance(value, torch.nn.Module):

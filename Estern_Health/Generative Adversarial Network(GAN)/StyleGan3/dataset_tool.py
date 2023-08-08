@@ -315,9 +315,9 @@ def open_dest(dest: str) -> Tuple[str, Callable[[str, Union[bytes, str]], None],
         return dest, folder_write_bytes, lambda: None
 
 #----------------------------------------------------------------------------
-data_folder = r'D:\Estern_PNG\Abnormal\CC'
-save_path = r'C:\Users\Woody\Desktop\CC-1024x1024.zip'
-resolution = '1024x1024'   # '256x256' or '512x512' or'1024x1024'
+data_folder = r'C:\Users\Woody\Desktop\data\Abnormal\MLO'
+save_path = r'C:\Users\Woody\Desktop\MLO-2024x2024.zip'
+resolution = '2048x2048'   # '256x256' or '512x512' or'1024x1024'
 
 @click.command()
 @click.pass_context

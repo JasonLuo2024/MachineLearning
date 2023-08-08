@@ -8,11 +8,10 @@
 import sys
 
 # Add the path to the specific folder containing Python packages
-specific_folder_path = r'/gpfs/home/hluo/anaconda3/envs/torch/lib'
-stylegan_path = r'/home/hluo/GAN/stylegan3'
-sys.path.append(stylegan_path)
-sys.path.append(specific_folder_path)
-
+# specific_folder_path = r'/gpfs/home/hluo/anaconda3/envs/torch/lib'
+# stylegan_path = r'/home/hluo/GAN/stylegan3'
+# sys.path.append(stylegan_path)
+# sys.path.append(specific_folder_path)
 
 """Train a GAN using the techniques described in the paper
 "Alias-Free Generative Adversarial Networks"."""
@@ -130,14 +129,19 @@ def parse_comma_separated_list(s):
 
 #----------------------------------------------------------------------------
 
+outdir = r'/home/hluo/results/GAN'
+dataset = r'/home/hluo/GAN\CC.zip'
+num_gpus = 1  #for most users, it should be set to 1 as default
+batch_size = 12 #based on your memory, if your gpu memory is 32G, for example, with 512X512 iamges, you can set it up to 16
+
 @click.command()
 
 # Required.
-@click.option('--outdir',       help='Where to save the results', metavar='DIR',                required=True, default =r'/home/hluo/results/GAN' )
+@click.option('--outdir',       help='Where to save the results', metavar='DIR',                required=True, default = outdir)
 @click.option('--cfg',          help='Base configuration',                                      type=click.Choice(['stylegan3-t', 'stylegan3-r', 'stylegan2']), required=True, default = 'stylegan3-t')
-@click.option('--data',         help='Training data', metavar='[ZIP|DIR]',                      type=str, required=True,default =r'/home/hluo/GAN\CC.zip')
-@click.option('--gpus',         help='Number of GPUs to use', metavar='INT',                    type=click.IntRange(min=1), required=True, default= 1)
-@click.option('--batch',        help='Total batch size', metavar='INT',                         type=click.IntRange(min=1), required=True,default= 12)
+@click.option('--data',         help='Training data', metavar='[ZIP|DIR]',                      type=str, required=True,default = dataset)
+@click.option('--gpus',         help='Number of GPUs to use', metavar='INT',                    type=click.IntRange(min=1), required=True, default= num_gpus)
+@click.option('--batch',        help='Total batch size', metavar='INT',                         type=click.IntRange(min=1), required=True,default= batch_size)
 @click.option('--gamma',        help='R1 regularization weight', metavar='FLOAT',               type=click.FloatRange(min=0), required=True,default= 6.6)
 
 # Optional features.

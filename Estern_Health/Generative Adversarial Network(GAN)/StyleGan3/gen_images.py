@@ -68,15 +68,20 @@ def make_transform(translate: Tuple[float,float], angle: float):
 
 #----------------------------------------------------------------------------
 
+
+network_pkl = ''   #put your pkl path here
+num_images = 1    #num of images you want to generate for example 0-100
+outdir = "" #saving path
+
 @click.command()
-@click.option('--network', 'network_pkl', help='Network pickle filename', required=True, default = 'C:/Users/Woody/Desktop/network-snapshot-004800.pkl')
-@click.option('--seeds', type=parse_range, help='List of random seeds (e.g., \'0,1,4-6\')', required=True, default = '0-100')
+@click.option('--network', 'network_pkl', help='Network pickle filename', required=True,default = network_pkl)
+@click.option('--seeds', type=parse_range, help='List of random seeds (e.g., \'0,1,4-6\')', required=True,default = num_images)
 @click.option('--trunc', 'truncation_psi', type=float, help='Truncation psi', default=1, show_default=True)
 @click.option('--class', 'class_idx', type=int, help='Class label (unconditional if not specified)')
 @click.option('--noise-mode', help='Noise mode', type=click.Choice(['const', 'random', 'none']), default='const', show_default=True)
 @click.option('--translate', help='Translate XY-coordinate (e.g. \'0.3,1\')', type=parse_vec2, default='0,0', show_default=True, metavar='VEC2')
 @click.option('--rotate', help='Rotation angle in degrees', type=float, default=0, show_default=True, metavar='ANGLE')
-@click.option('--outdir', help='Where to save the output images', type=str, required=True, metavar='DIR',default = r'C:\Users\Woody\Desktop\GAN\stylegan3\out')
+@click.option('--outdir', help='Where to save the output images', type=str, required=True, metavar='DIR',default = outdir)
 def generate_images(
     network_pkl: str,
     seeds: List[int],
@@ -118,7 +123,6 @@ def generate_images(
     else:
         if class_idx is not None:
             print ('warn: --class=lbl ignored when running on an unconditional network')
-
     # Generate images.
     for seed_idx, seed in enumerate(seeds):
         print('Generating image for seed %d (%d/%d) ...' % (seed, seed_idx, len(seeds)))
@@ -133,9 +137,10 @@ def generate_images(
             G.synthesis.input.transform.copy_(torch.from_numpy(m))
 
         img = G(z, label, truncation_psi=truncation_psi, noise_mode=noise_mode)
-        img = (img.permute(0, 2, 3, 1) * 127.5 + 128).clamp(0, 255).to(torch.uint8)
-        PIL.Image.fromarray(img[0].cpu().numpy(), 'RGB').save(f'{outdir}/seed{seed:04d}.png')
-
+        # img = (img.permute(0, 2, 3, 1) * 127.5 + 128).clamp(0, 255).to(torch.uint8)
+        # PIL.Image.fromarray(img[0].cpu().numpy(), 'RGB').save(f'{outdir}/seed{seed:04d}.png')
+        img = (img.permute(0, 1, 2, 3) * 127.5 + 128).clamp(0, 255).to(torch.uint8)
+        PIL.Image.fromarray(img[0].cpu().numpy()[0]).save(f'{outdir}/seed{seed:04d}.png')
 
 #----------------------------------------------------------------------------
 
