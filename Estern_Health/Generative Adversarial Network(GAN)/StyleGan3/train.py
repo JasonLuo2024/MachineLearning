@@ -134,6 +134,9 @@ dataset = r'/home/hluo/GAN\CC.zip'
 num_gpus = 1  #for most users, it should be set to 1 as default
 batch_size = 12 #based on your memory, if your gpu memory is 32G, for example, with 512X512 iamges, you can set it up to 16
 snapshots_save = 50  #how often to save progress
+
+## load the pre-trained/saved pickle, go to -- resume, add a default option then pass the pickle path
+pretrain_pickle = ''  # not used
 @click.command()
 
 # Required.
